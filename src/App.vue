@@ -21,16 +21,14 @@
 <script>
 import ListReviews from "./components/listReviews.vue";
 import FormReviews from "./components/formReviews.vue";
+import axios from "axios";
 
 export default {
   name: "App",
   data: function () {
     return {
       dataForm: {},
-      reviews: [
-        { id: 1, nama: "afdha", komentar: "Disini keren beroh" },
-        { id: 2, nama: "Hera", komentar: "Disini keren waw" },
-      ],
+      reviews: [],
     };
   },
   components: {
@@ -63,6 +61,15 @@ export default {
       let reviewIndex = this.reviews.findIndex((review) => review.id === id);
       this.reviews.splice(reviewIndex, 1);
     },
+    getData() {
+      axios.get("http://localhost/simpleminireview/review").then((response) => {
+        console.log(response);
+        this.reviews = response.data;
+      });
+    },
+  },
+  mounted() {
+    this.getData();
   },
 };
 </script>
