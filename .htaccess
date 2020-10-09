@@ -1,9 +1,9 @@
 RewriteEngine On
-RewriteRule ^note/create/?$ api.php?f=CREATE [NC,L]
+RewriteRule ^review/create/?$ api.php?f=CREATE [NC,L]
 
-RewriteRule ^note/update/?$ api.php?f=UPDATE [NC,L]
+RewriteRule ^review/update/?$ api.php?f=UPDATE [NC,L]
 
-RewriteRule ^note/delete/?$ api.php?f=DELETE [NC,L]
+RewriteRule ^review/delete/?$ api.php?f=DELETE [NC,L]
 
-RewriteRule ^note?$ api.php [NC,L]
-RewriteRule ^note/([0-9]+)/?$ api.php?id=$1 [NC,L]
+RewriteRule ^review?$ api.php [NC,L]
+RewriteRule ^review/([0-9]+)/?$ api.php?id=$1 [NC,L]

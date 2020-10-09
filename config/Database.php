@@ -5,7 +5,7 @@
           private $host  = 'localhost';
           private $user  = 'root';
           private $password   = "";
-          private $database  = "wegodev-notes";
+          private $database  = "simplereview";
 
          public function koneksi(){
                try {

@@ -1,5 +1,5 @@
 <?php
-     //INI ADALAH API SEDERHNA, HANYA UNTUK UJI COB MATERI VUE JS
+     // API SEDERHNA
      header('Access-Control-Allow-Methods: GET, POST');
      header("Content-Type: application/json; charset=UTF-8");
      header("Access-Control-Allow-Origin: *");
@@ -13,10 +13,10 @@
                $this->db = $database->koneksi();
           }
 
-          function createNote($title, $description){
-               $getNotes = $this->db->prepare("insert into note (title, description)
-                                               VALUES (:title, :description)");
-               $getNotes->execute(['title' => $title, 'description' => $description]);
+          function createReview($nama, $komentar){
+               $getReviews = $this->db->prepare("insert into review (nama, komentar)
+                                               VALUES (:nama, :komentar)");
+               $getReviews->execute(['nama' => $nama, 'komentar' => $komentar]);
 
                $id = $this->db->lastInsertId();
 
@@ -24,34 +24,38 @@
           }
 
 
-          function deleteNote($id){
-               $deleteNotes = $this->db->prepare("DELETE FROM note WHERE id = :id");
-               $deleteNotes->execute(['id' => $id]);
+          function deleteReview($id){
+               $deleteReviews = $this->db->prepare("DELETE FROM review WHERE id = :id");
+               $deleteReviews->execute(['id' => $id]);
+
+               return json_encode(['status' => true, 'id' => $id, 'pesan' => 'data berhasil dihapus']);
           }
 
-          function updateNote($id, $title, $description){
-               $getNotes = $this->db->prepare("UPDATE note SET title = :title,
-                                                               description = :description
+          function updateReview($id, $nama, $komentar){
+               $getReviews = $this->db->prepare("UPDATE review SET nama = :nama,
+                                                               komentar = :komentar
                                                                WHERE id = :id");
-               $getNotes->execute(['id' => $id,
-                                   'title' => $title,
-                                   'description' => $description]);
+               $getReviews->execute(['id' => $id,
+                                   'nama' => $nama,
+                                   'komentar' => $komentar]);
+
+               return json_encode(['status' => true, 'id' => $id, 'pesan' => 'data berhasil diubah']);
           }
 
-          function allNotes(){
-               $getNotes = $this->db->prepare("SELECT * FROM note ORDER BY id DESC");
-               $getNotes->execute();
-               $notes = $getNotes->fetchAll(PDO::FETCH_ASSOC);
+          function allReviews(){
+               $getReviews = $this->db->prepare("SELECT * FROM review ORDER BY id DESC");
+               $getReviews->execute();
+               $reviews = $getReviews->fetchAll(PDO::FETCH_ASSOC);
 
-               return json_encode($notes);
+               return json_encode($reviews);
           }
 
-          function getNote($id = false){
-               $getNotes = $this->db->prepare("SELECT * FROM note WHERE id = :id");
-               $getNotes->execute(['id' => $id]);
-               $notes = $getNotes->fetchAll(PDO::FETCH_ASSOC);
+          function getReview($id = false){
+               $getReviews = $this->db->prepare("SELECT * FROM review WHERE id = :id");
+               $getReviews->execute(['id' => $id]);
+               $reviews = $getReviews->fetchAll(PDO::FETCH_ASSOC);
 
-               return json_encode($notes);
+               return json_encode($reviews);
           }
      }
 
@@ -59,19 +63,19 @@
      $f = $_GET["f"] ?? false;
 
      if($f == "CREATE"){
-          echo $api->createNote($_POST['title'], $_POST['description']);
+          echo $api->createReview($_POST['nama'], $_POST['komentar']);
      }
      else if($f == "UPDATE"){
-          $api->updateNote($_POST['id'], $_POST['title'], $_POST['description']);
+          echo $api->updateReview($_POST['id'], $_POST['nama'], $_POST['komentar']);
      }
      else if($f == "DELETE"){
-          $api->deleteNote($_POST['id']);
+          echo $api->deleteReview($_POST['id']);
      }
      else{
           if(isset($_GET['id'])){
-               echo $api->getNote($_GET['id']);
+               echo $api->getReview($_GET['id']);
           }else{
-               echo $api->allNotes();
+               echo $api->allReviews();
           }
      }
 
