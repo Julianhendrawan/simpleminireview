@@ -54,7 +54,13 @@ export default {
         this.propKirimReview(this.nama, this.komentar);
       } else {
         this.propUpdateReview(this.id, this.nama, this.komentar);
+        this.resetInput();
       }
+    },
+    resetInput() {
+      this.id = 0;
+      this.nama = "";
+      this.komentar = "";
     },
   },
   watch: {

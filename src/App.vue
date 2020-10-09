@@ -28,8 +28,8 @@ export default {
     return {
       dataForm: {},
       reviews: [
-        { id: 1, nama: "afdhal", komentar: "ini isi komentar" },
-        { id: 2, nama: "shakila", komentar: "ini isi review" },
+        { id: 1, nama: "afdha", komentar: "Disini keren beroh" },
+        { id: 2, nama: "Hera", komentar: "Disini keren waw" },
       ],
     };
   },

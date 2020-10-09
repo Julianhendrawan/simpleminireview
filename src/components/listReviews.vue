@@ -1,5 +1,6 @@
 <template>
   <div class="listReviews">
+    <!-- hasil output -->
     <div
       v-for="(row, index) in propReviews"
       :key="index"
@@ -10,7 +11,7 @@
       </button>
       <button
         type="button"
-        @click="submitRemove"
+        @click="idReviewDelete(row.id)"
         class="btndelete btndeletehover"
       >
         Delete
@@ -47,8 +48,8 @@ export default {
     idReview(id) {
       this.propEditReview(id);
     },
-    submitRemove() {
-      this.propRemoveReview(this.id);
+    idReviewDelete(id) {
+      this.propRemoveReview(id);
       this.resetInput();
     },
     resetInput() {
