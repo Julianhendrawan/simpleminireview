@@ -43,11 +43,11 @@ export default {
     submitReview(e) {
       e.preventDefault();
 
-      let params = new URLSearchParams();
-      params.append("nama", this.nama);
-      params.append("komentar", this.komentar);
-
       if (this.id === 0) {
+        let params = new URLSearchParams();
+        params.append("nama", this.nama);
+        params.append("komentar", this.komentar);
+
         axios
           .post("http://localhost/simpleminireview/review/create", params)
           .then((response) => {
@@ -59,9 +59,21 @@ export default {
             this.$root.$emit("emitSaveReview", data);
           });
       } else {
-        // data.id = this.id;
-        // this.$root.$emit("emitUpdateReview", data);
-        // this.resetInput();
+        let params = new URLSearchParams();
+        params.append("id", this.id);
+        params.append("nama", this.nama);
+        params.append("komentar", this.komentar);
+
+        axios
+          .post("http://localhost/simpleminireview/review/update", params)
+          .then((response) => {
+            let data = {
+              id: response.data.id,
+              nama: this.nama,
+              komentar: this.komentar,
+            };
+            this.$root.$emit("emitUpdateReview", data);
+          });
       }
     },
     resetInput() {
