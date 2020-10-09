@@ -1,6 +1,6 @@
 <template>
   <div class="formreviews">
-    <form @submit="kirimReview">
+    <form @submit="submitReview">
       <h2 class="title">
         Review <img class="bintang" src="../assets/brev.png" />
       </h2>
@@ -27,19 +27,11 @@
 </template>
 
 <script type="text/javascript">
+import axios from "axios";
+
 export default {
   name: "formReviews",
-  props: {
-    propKirimReview: {
-      type: Function,
-    },
-    propUpdateReview: {
-      type: Function,
-    },
-    propDataForm: {
-      type: Object,
-    },
-  },
+  props: {},
   data: function () {
     return {
       id: 0,
@@ -48,13 +40,28 @@ export default {
     };
   },
   methods: {
-    kirimReview(e) {
+    submitReview(e) {
       e.preventDefault();
+
+      let params = new URLSearchParams();
+      params.append("nama", this.nama);
+      params.append("komentar", this.komentar);
+
       if (this.id === 0) {
-        this.propKirimReview(this.nama, this.komentar);
+        axios
+          .post("http://localhost/simpleminireview/review/create", params)
+          .then((response) => {
+            let data = {
+              id: response.data.id,
+              nama: this.nama,
+              komentar: this.komentar,
+            };
+            this.$root.$emit("emitSaveReview", data);
+          });
       } else {
-        this.propUpdateReview(this.id, this.nama, this.komentar);
-        this.resetInput();
+        // data.id = this.id;
+        // this.$root.$emit("emitUpdateReview", data);
+        // this.resetInput();
       }
     },
     resetInput() {
@@ -63,12 +70,12 @@ export default {
       this.komentar = "";
     },
   },
-  watch: {
-    propDataForm: function (review) {
-      this.id = review.id;
-      this.nama = review.nama;
-      this.komentar = review.komentar;
-    },
+  mounted() {
+    this.$root.$on("emitForm", (data) => {
+      this.id = data.id;
+      this.nama = data.nama;
+      this.komentar = data.komentar;
+    });
   },
 };
 </script>

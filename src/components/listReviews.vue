@@ -2,18 +2,14 @@
   <div class="listReviews">
     <!-- hasil output -->
     <div
-      v-for="(row, index) in propReviews"
+      v-for="(row, index) in reviews"
       :key="index"
       class="cardreview cardreviewhover"
     >
-      <button class="btnedit btnedithover" @click="idReview(row.id)">
+      <button class="btnedit btnedithover" @click="editReview(row.id)">
         Edit
       </button>
-      <button
-        type="button"
-        @click="idReviewDelete(row.id)"
-        class="btndelete btndeletehover"
-      >
+      <button @click="submitRemove(row.id)" class="btndelete btndeletehover">
         Delete
       </button>
       <div class="foto"></div>
@@ -28,28 +24,23 @@
 </template>
 
 <script type="text/javascript">
+import axios from "axios";
+
 export default {
   name: "listReviews",
   data: function () {
-    return {};
-  },
-  props: {
-    propReviews: {
-      type: Array,
-    },
-    propRemoveReview: {
-      type: Function,
-    },
-    propEditReview: {
-      type: Function,
-    },
+    return {
+      reviews: [],
+    };
   },
   methods: {
-    idReview(id) {
-      this.propEditReview(id);
+    editReview(id) {
+      let dataForm = this.reviews.find((review) => review.id === id);
+      this.$root.$emit("emitForm", dataForm);
     },
-    idReviewDelete(id) {
-      this.propRemoveReview(id);
+    submitRemove(id) {
+      let reviewIndex = this.reviews.findIndex((review) => review.id === id);
+      this.reviews.splice(reviewIndex, 1);
       this.resetInput();
     },
     resetInput() {
@@ -57,6 +48,32 @@ export default {
       this.nama = "";
       this.komentar = "";
     },
+    getData() {
+      axios.get("http://localhost/simpleminireview/review").then((response) => {
+        this.reviews = response.data;
+      });
+    },
+  },
+  mounted() {
+    this.getData();
+
+    this.$root.$on("emitUpdateReview", (data) => {
+      let reviewIndex = this.reviews.findIndex(
+        (review) => review.id === data.id
+      );
+
+      this.reviews[reviewIndex].nama = data.nama;
+      this.reviews[reviewIndex].komentar = data.komentar;
+    });
+    this.$root.$on("emitSaveReview", (data) => {
+      let newReview = {
+        id: data.id,
+        nama: data.nama,
+        komentar: data.komentar,
+      };
+      this.reviews.unshift(newReview);
+      this.editReview(data.id);
+    });
   },
 };
 </script>

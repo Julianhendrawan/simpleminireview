@@ -1,18 +1,10 @@
 <template>
   <div id="app">
     <div class="card">
-      <FormReviews
-        :propKirimReview="kirimReview"
-        :propUpdateReview="updateReview"
-        :propDataForm="dataForm"
-      />
+      <FormReviews />
       <div class="line"></div>
       <div class="framereview">
-        <ListReviews
-          :propReviews="reviews"
-          :propRemoveReview="removeReview"
-          :propEditReview="editReview"
-        />
+        <ListReviews />
       </div>
     </div>
   </div>
@@ -21,56 +13,17 @@
 <script>
 import ListReviews from "./components/listReviews.vue";
 import FormReviews from "./components/formReviews.vue";
-import axios from "axios";
 
 export default {
   name: "App",
   data: function () {
-    return {
-      dataForm: {},
-      reviews: [],
-    };
+    return {};
   },
   components: {
     ListReviews,
     FormReviews,
   },
-  methods: {
-    editReview(id) {
-      this.dataForm = this.reviews.find((review) => review.id === id);
-    },
-    kirimReview(nama, komentar) {
-      let newId = 0;
-      if (this.reviews.length === 0) {
-        newId = 1;
-      } else {
-        newId = this.reviews[this.reviews.length - 1].id + 1;
-      }
-
-      let newReview = { id: newId, nama: nama, komentar: komentar };
-      this.reviews.push(newReview);
-      this.editReview(newId);
-    },
-    updateReview(id, nama, komentar) {
-      let reviewIndex = this.reviews.findIndex((review) => review.id === id);
-
-      this.reviews[reviewIndex].nama = nama;
-      this.reviews[reviewIndex].komentar = komentar;
-    },
-    removeReview(id) {
-      let reviewIndex = this.reviews.findIndex((review) => review.id === id);
-      this.reviews.splice(reviewIndex, 1);
-    },
-    getData() {
-      axios.get("http://localhost/simpleminireview/review").then((response) => {
-        console.log(response);
-        this.reviews = response.data;
-      });
-    },
-  },
-  mounted() {
-    this.getData();
-  },
+  methods: {},
 };
 </script>
 
