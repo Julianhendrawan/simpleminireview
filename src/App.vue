@@ -43,7 +43,7 @@ body {
 
 .card {
   width: 411px;
-  height: 823px;
+  height: 850px;
   position: relative;
   overflow: hidden;
   background: rgb(255, 255, 255);

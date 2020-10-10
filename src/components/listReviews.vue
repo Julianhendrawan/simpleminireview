@@ -13,9 +13,10 @@
         Delete
       </button>
       <div class="foto"></div>
-      <h4 class="nama">{{ row.nama }} {{ index }}</h4>
+      <h4 class="nama">{{ row.nama }}</h4>
       <h5 class="tanggal">2 Desember 2018</h5>
-      <img class="bintangrev" src="../assets/brev.png" />
+      <h5 class="rating">Rating : {{ row.rating }}</h5>
+      <!-- <img class="bintangrev" src="../assets/brev.png" /> -->
       <br />
       <h5 class="komentar">{{ row.komentar }}</h5>
       <div class="fotoreview"><br />Gambar</div>
@@ -56,6 +57,7 @@ export default {
       this.id = 0;
       this.nama = "";
       this.komentar = "";
+      this.rating = "";
     },
     getData() {
       axios.get("http://localhost/simpleminireview/review").then((response) => {
@@ -73,12 +75,14 @@ export default {
 
       this.reviews[reviewIndex].nama = data.nama;
       this.reviews[reviewIndex].komentar = data.komentar;
+      this.reviews[reviewIndex].rating = data.rating;
     });
     this.$root.$on("emitSaveReview", (data) => {
       let newReview = {
         id: data.id,
         nama: data.nama,
         komentar: data.komentar,
+        rating: data.rating,
       };
       this.reviews.unshift(newReview);
       this.editReview(data.id);
@@ -128,12 +132,12 @@ export default {
 
 .cardreview {
   width: 80%;
-  height: 200px;
+  height: 205px;
   position: relative;
   overflow: hidden;
   background: rgb(255, 255, 255);
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 15px;
   border: 2px solid black;
   background: #ffffff;
 }
@@ -154,7 +158,7 @@ export default {
 
 .nama {
   margin-top: -50px;
-  margin-left: -32%;
+  margin-left: -35%;
   font-size: 16px;
 }
 
@@ -169,6 +173,13 @@ export default {
   margin-top: -5px;
   margin-left: -15%;
   font-size: 14px;
+}
+
+.rating {
+  margin-top: -20px;
+  margin-left: -30%;
+  font-size: 14px;
+  color: #979797;
 }
 
 .fotoreview {

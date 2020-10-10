@@ -5,19 +5,33 @@
         Review <img class="bintang" src="../assets/brev.png" />
       </h2>
       <!-- input data -->
-      <input type="text" class="inputnama" placeholder="id" v-model="id" />
+      <input
+        type="text"
+        class="inputnama"
+        placeholder="id"
+        v-model="id"
+        hidden
+      />
       <input
         type="text"
         class="inputnama"
         placeholder="Tulis Nama Kamu"
         v-model="nama"
       />
+
       <textarea
         type="text"
         class="inputreview"
         placeholder="Tulis Review Terbaik mu..."
         v-model="komentar"
       ></textarea>
+
+      <input
+        type="number"
+        class="inputrating"
+        placeholder="Nilai Rating 1 - 5"
+        v-model="rating"
+      />
 
       <!-- button input data -->
       <button class="btnupload btnuploadhover">Upload Gambar</button>
@@ -37,6 +51,7 @@ export default {
       id: 0,
       nama: "",
       komentar: "",
+      rating: "",
     };
   },
   methods: {
@@ -47,6 +62,7 @@ export default {
         let params = new URLSearchParams();
         params.append("nama", this.nama);
         params.append("komentar", this.komentar);
+        params.append("rating", this.rating);
 
         axios
           .post("http://localhost/simpleminireview/review/create", params)
@@ -55,6 +71,7 @@ export default {
               id: response.data.id,
               nama: this.nama,
               komentar: this.komentar,
+              rating: this.rating,
             };
             this.$root.$emit("emitSaveReview", data);
             this.resetInput();
@@ -64,6 +81,7 @@ export default {
         params.append("id", this.id);
         params.append("nama", this.nama);
         params.append("komentar", this.komentar);
+        params.append("rating", this.rating);
 
         axios
           .post("http://localhost/simpleminireview/review/update", params)
@@ -72,6 +90,7 @@ export default {
               id: response.data.id,
               nama: this.nama,
               komentar: this.komentar,
+              rating: this.rating,
             };
             this.$root.$emit("emitUpdateReview", data);
             this.resetInput();
@@ -82,6 +101,7 @@ export default {
       this.id = 0;
       this.nama = "";
       this.komentar = "";
+      this.rating = "";
     },
   },
   mounted() {
@@ -89,6 +109,7 @@ export default {
       this.id = data.id;
       this.nama = data.nama;
       this.komentar = data.komentar;
+      this.rating = data.rating;
     });
   },
 };
@@ -118,9 +139,18 @@ export default {
 
 .inputreview {
   margin-left: 0;
-  margin-top: 15px;
+  margin-top: 10px;
   width: 80%;
   height: 90px;
+  font-size: 18px;
+  background: #e6e5e5;
+}
+
+.inputrating {
+  margin-left: 0;
+  margin-top: 5px;
+  width: 80%;
+  height: 30px;
   font-size: 18px;
   background: #e6e5e5;
 }
