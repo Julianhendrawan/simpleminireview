@@ -57,6 +57,7 @@ export default {
               komentar: this.komentar,
             };
             this.$root.$emit("emitSaveReview", data);
+            this.resetInput();
           });
       } else {
         let params = new URLSearchParams();
@@ -73,6 +74,7 @@ export default {
               komentar: this.komentar,
             };
             this.$root.$emit("emitUpdateReview", data);
+            this.resetInput();
           });
       }
     },

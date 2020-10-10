@@ -39,9 +39,18 @@ export default {
       this.$root.$emit("emitForm", dataForm);
     },
     submitRemove(id) {
-      let reviewIndex = this.reviews.findIndex((review) => review.id === id);
-      this.reviews.splice(reviewIndex, 1);
-      this.resetInput();
+      let params = new URLSearchParams();
+      params.append("id", id);
+
+      axios
+        .post("http://localhost/simpleminireview/review/delete", params)
+        .then((response) => {
+          let data = {
+            id: response.data.id,
+          };
+          this.reviews.splice(data, 1);
+          this.getData();
+        });
     },
     resetInput() {
       this.id = 0;
