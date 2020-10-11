@@ -19,7 +19,8 @@
       <!-- <img class="bintangrev" src="../assets/brev.png" /> -->
       <br />
       <h5 class="komentar">{{ row.komentar }}</h5>
-      <div class="fotoreview"><br />Gambar</div>
+      <!-- <div class="fotoreview"><br />Gambar</div> -->
+      <img class="fotoreview" src="../assets/brev.png" />
     </div>
   </div>
 </template>
@@ -58,6 +59,7 @@ export default {
       this.nama = "";
       this.komentar = "";
       this.rating = "";
+      this.selectedFile = "";
     },
     getData() {
       axios.get("http://localhost/simpleminireview/review").then((response) => {
@@ -76,6 +78,7 @@ export default {
       this.reviews[reviewIndex].nama = data.nama;
       this.reviews[reviewIndex].komentar = data.komentar;
       this.reviews[reviewIndex].rating = data.rating;
+      this.reviews[reviewIndex].selectedFile = data.selectedFile;
     });
     this.$root.$on("emitSaveReview", (data) => {
       let newReview = {
@@ -83,6 +86,7 @@ export default {
         nama: data.nama,
         komentar: data.komentar,
         rating: data.rating,
+        selectedFile: data.selectedFile,
       };
       this.reviews.unshift(newReview);
       this.editReview(data.id);
@@ -170,8 +174,9 @@ export default {
 }
 
 .komentar {
+  /* align-items: center; */
   margin-top: -5px;
-  margin-left: -15%;
+  /* margin-left: -15%; */
   font-size: 14px;
 }
 
@@ -183,10 +188,10 @@ export default {
 }
 
 .fotoreview {
-  width: 110px;
+  width: 100px;
   height: 50px;
-  margin-left: 80px;
-  margin-top: 10px;
+  margin-left: 0px;
+  margin-top: 2px;
   border: 2px solid black;
   background: #e6e5e5;
 }

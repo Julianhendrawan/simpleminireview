@@ -53,7 +53,7 @@ body {
 }
 
 .line {
-  padding: 25px 15px;
+  padding: 15px 15px;
   border-bottom: 1px solid black;
 }
 

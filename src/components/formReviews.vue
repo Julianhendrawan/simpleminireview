@@ -32,9 +32,16 @@
         placeholder="Nilai Rating 1 - 5"
         v-model="rating"
       />
-
+      <br />
       <!-- button input data -->
-      <button class="btnupload btnuploadhover">Upload Gambar</button>
+      <input
+        type="file"
+        @change="onFileSelected"
+        class="btnupload btnuploadhover"
+      />
+      <!-- <button class="btnupload btnuploadhover" @click="$refs.fileInput">
+        Upload Gambar
+      </button> -->
       <button type="submit" class="btnkirim btnkirimhover">Kirim</button>
     </form>
   </div>
@@ -52,9 +59,13 @@ export default {
       nama: "",
       komentar: "",
       rating: "",
+      selectedFile: null,
     };
   },
   methods: {
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0];
+    },
     submitReview(e) {
       e.preventDefault();
 
@@ -63,6 +74,7 @@ export default {
         params.append("nama", this.nama);
         params.append("komentar", this.komentar);
         params.append("rating", this.rating);
+        params.append("image", this.selectedFile);
 
         axios
           .post("http://localhost/simpleminireview/review/create", params)
@@ -72,7 +84,9 @@ export default {
               nama: this.nama,
               komentar: this.komentar,
               rating: this.rating,
+              image: this.selectedFile,
             };
+
             this.$root.$emit("emitSaveReview", data);
             this.resetInput();
           });
@@ -82,6 +96,7 @@ export default {
         params.append("nama", this.nama);
         params.append("komentar", this.komentar);
         params.append("rating", this.rating);
+        params.append("image", this.selectedFile);
 
         axios
           .post("http://localhost/simpleminireview/review/update", params)
@@ -91,7 +106,9 @@ export default {
               nama: this.nama,
               komentar: this.komentar,
               rating: this.rating,
+              image: this.selectedFile,
             };
+            console.log(data);
             this.$root.$emit("emitUpdateReview", data);
             this.resetInput();
           });
@@ -102,6 +119,7 @@ export default {
       this.nama = "";
       this.komentar = "";
       this.rating = "";
+      this.selectedFile = null;
     },
   },
   mounted() {
@@ -110,6 +128,7 @@ export default {
       this.nama = data.nama;
       this.komentar = data.komentar;
       this.rating = data.rating;
+      this.selectedFile = data.selectedFile;
     });
   },
 };
@@ -156,14 +175,16 @@ export default {
 }
 
 .btnupload {
-  margin-left: -10px;
+  /* margin-left: -5px; */
+
+  width: 100px;
   border: 1px solid black;
   font-size: 12px;
   margin-top: 15px;
   letter-spacing: 1px;
   cursor: pointer;
   border-radius: 2px;
-  padding: 7px 25px;
+  padding: 4px 5px;
   outline: none;
   background: #6cbdff;
 }
