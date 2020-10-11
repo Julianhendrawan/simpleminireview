@@ -4,4 +4,4 @@ simpleminireview
 Hasil Build dari branch main
 
 ****Branch Main***
-Merupakan resource dari branch master
+Merupakan resources dari branch master
