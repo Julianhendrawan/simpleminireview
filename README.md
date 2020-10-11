@@ -1,5 +1,10 @@
 # resources
 
+- Menggunakan database mysql untuk crud
+- Menggunakan AXIOS untuk APInya
+- Minus gambar tidak bisa masuk db, sisanya normal
+
+
 ## Project setup
 ```
 npm install
