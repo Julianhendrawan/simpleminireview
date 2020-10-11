@@ -13,10 +13,10 @@
                $this->db = $database->koneksi();
           }
 
-          function createReview($nama, $komentar){
-               $getReviews = $this->db->prepare("insert into review (nama, komentar)
-                                               VALUES (:nama, :komentar)");
-               $getReviews->execute(['nama' => $nama, 'komentar' => $komentar]);
+          function createReview($nama, $komentar, $rating){
+               $getReviews = $this->db->prepare("insert into review (nama, komentar, rating)
+                                               VALUES (:nama, :komentar, :rating)");
+               $getReviews->execute(['nama' => $nama, 'komentar' => $komentar, 'rating' => $rating]);
 
                $id = $this->db->lastInsertId();
 
@@ -31,13 +31,15 @@
                return json_encode(['status' => true, 'id' => $id, 'pesan' => 'data berhasil dihapus']);
           }
 
-          function updateReview($id, $nama, $komentar){
+          function updateReview($id, $nama, $komentar, $rating){
                $getReviews = $this->db->prepare("UPDATE review SET nama = :nama,
-                                                               komentar = :komentar
+                                                               komentar = :komentar,
+                                                               rating = :rating
                                                                WHERE id = :id");
                $getReviews->execute(['id' => $id,
                                    'nama' => $nama,
-                                   'komentar' => $komentar]);
+                                   'komentar' => $komentar,
+                                   'rating' => $rating]);
 
                return json_encode(['status' => true, 'id' => $id, 'pesan' => 'data berhasil diubah']);
           }
@@ -63,10 +65,10 @@
      $f = $_GET["f"] ?? false;
 
      if($f == "CREATE"){
-          echo $api->createReview($_POST['nama'], $_POST['komentar']);
+          echo $api->createReview($_POST['nama'], $_POST['komentar'], $_POST['rating']);
      }
      else if($f == "UPDATE"){
-          echo $api->updateReview($_POST['id'], $_POST['nama'], $_POST['komentar']);
+          echo $api->updateReview($_POST['id'], $_POST['nama'], $_POST['komentar'], $_POST['rating']);
      }
      else if($f == "DELETE"){
           echo $api->deleteReview($_POST['id']);
